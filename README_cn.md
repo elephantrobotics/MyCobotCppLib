@@ -1,0 +1,2 @@
+# MyCobotCppLib
+库的使用案例请看（https://github.com/elephantrobotics/myCobotCpp ），编译环境搭建可参考案例中的README，或者查看大象机器人的gitbook(https://docs.elephantrobotics.com/docs/gitbook/8-ApplicationBaseCPlus/ )，也可以查看b站大象机器人学院中的c++视频（大象机器人学院——c++控制机械臂：https://www.bilibili.com/ ）。

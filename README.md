@@ -1,1 +1,2 @@
 # MyCobotCppLib
+Please refer to the use case of the library (https://github.com/elephantrobotics/myCobotCpp), for building the compilation environment, can refer to the README in the case, or the gitbook of Elephant Robotics (https://docs.elephantrobotics.com/docs/ gitbook/8-ApplicationBaseCPlus/), you can also view the c++ video in the Elephant Robotics Academy at Station B (Elephant Robotics Academy - C++ Control Robot Arm: https://www.bilibili.com/).
