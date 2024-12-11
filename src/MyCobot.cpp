@@ -166,7 +166,10 @@ namespace rc {
             command += FIRMATA_FOOTER;
             // LogTrace << "WriteCoords(" << coords << ", " << speed << ")";
             SerialWrite(command);
-            LogInfo << "WriteCoords(" << coords << ", " << speed << ")";
+            LogInfo << "WriteCoords([" << coords[0] << ", " << coords[1] << ", "
+                << coords[2] << ", " << coords[3] << ", "
+                << coords[4] << ", " << coords[5] << "] "
+                << speed << ")"; //需要从0开始
         };
         command_bits.set(Command::WriteCoords);
         commands.remove_if(
@@ -238,7 +241,7 @@ namespace rc {
                 command += static_cast<char>(centi_deg >> 8);
                 command += static_cast<char>(centi_deg & 0x00FF);
             }
-            command += static_cast<char>(speed * 100 / MaxAngleSpeed);
+            command += static_cast<char>(speed);
             command += FIRMATA_FOOTER;
             SerialWrite(command);
         };
@@ -264,7 +267,7 @@ namespace rc {
                 signed short centi_deg = static_cast<signed short>(angle * 100);
                 command += static_cast<char>(centi_deg >> 8);
                 command += static_cast<char>(centi_deg & 0x00FF);
-                command += static_cast<char>(speed * 100 / MaxAngleSpeed);
+                command += static_cast<char>(speed);
                 command += FIRMATA_FOOTER;
                 SerialWrite(command);
             };
@@ -365,15 +368,15 @@ namespace rc {
         LogTrace << "(joint=" << joint << ", direction=" << direction << ", speed=" << speed << ")";
         std::lock_guard<std::mutex> lock(command_mutex);
         UpdateCacheInChangePositionFunction();
-        LogInfo << "jogangle1";
+        //LogInfo << "jogangle1";
         if (!command_bits.test(Command::JogAngle)) {
             std::function<void()> f = [this, joint, direction, speed]() {
-                LogInfo << "jogangle2";
+                //LogInfo << "jogangle2";
                 QByteArray command(CommandJogAngle);
-                LogInfo << "jogangle3";
-                command += char(joint + 1);
+                //LogInfo << "jogangle3";
+                command += char(joint);
                 command += char((direction < 0) ? 0 : 1);
-                command += char(speed * 100 / MaxAngleSpeed);
+                command += char(speed);
                 command += FIRMATA_FOOTER;
                 SerialWrite(command);
             };
@@ -394,7 +397,7 @@ namespace rc {
                 signed short centi_deg = static_cast<signed short>(pos * 100);
                 command += static_cast<char>(centi_deg >> 8);
                 command += static_cast<char>(centi_deg & 0x00FF);
-                command += static_cast<char>(speed * 100 / MaxAngleSpeed);
+                command += static_cast<char>(speed);
                 command += FIRMATA_FOOTER;
                 SerialWrite(command);
             };
@@ -499,7 +502,7 @@ namespace rc {
         std::lock_guard<std::mutex> lock(command_mutex);
         std::function<void()> f = [this, joint]() {
             QByteArray command(CommandFocusServo);
-            command += char(joint + 1);
+            command += char(joint);
             command += FIRMATA_FOOTER;
             SerialWrite(command);
         };
@@ -513,7 +516,7 @@ namespace rc {
         if (!command_bits.test(Command::GetServoData)) {
             std::function<void()> f = [this, joint, data_id]() {
                 QByteArray command(CommandGetServoData);
-                command += char(joint + 1);
+                command += char(joint);
                 command += char(data_id);
                 command += FIRMATA_FOOTER;
                 SerialWrite(command);
@@ -861,7 +864,7 @@ namespace rc {
         std::lock_guard<std::mutex> lock(command_mutex);
         std::function<void()> f = [this, joint, val]() {
             QByteArray command(CommandSetEncoder);
-            command += char(joint + 1);
+            command += char(joint);
             signed short encoder = static_cast<signed short>(val);
             command += static_cast<char>(encoder >> 8);
             command += static_cast<char>(encoder & 0x00FF);

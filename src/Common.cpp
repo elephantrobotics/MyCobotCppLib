@@ -136,7 +136,11 @@ Angles InvalidAngles()
 
 Angles GcodeToAngles(const QString &gcode)
 {
+#if QT_VERSION <= QT_VERSION_CHECK(5, 12, 10)
     QStringList list = gcode.split(QRegExp("X|Y|Z|A|B|C"), QString::SkipEmptyParts);
+#else
+    QStringList list = gcode.split(QRegExp("X|Y|Z|A|B|C"), Qt::SkipEmptyParts);
+#endif
     if (list.size() != 6) {
         return InvalidAngles();
     }

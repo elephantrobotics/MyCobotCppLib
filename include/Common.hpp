@@ -9,13 +9,15 @@
 #include <QObject>
 #include <QString>
 #include <QSerialPortInfo>
+#include <QString>
+#include <QStringList>
 
 #include "robosignal_global.hpp"
 
 namespace rc {
 
-enum Axis : int { X = 0, Y, Z, RX, RY, RZ };
-enum Joint : int { J1 = 0, J2, J3, J4, J5, J6 };
+enum Axis : int { X = 1, Y, Z, RX, RY, RZ };
+enum Joint : int { J1 = 1, J2, J3, J4, J5, J6 };
 constexpr const int Axes = 6;
 constexpr const int Joints = 6;
 using Coords = std::array<double, Axes>;
@@ -203,9 +205,9 @@ extern int ROBOSIGNALSHARED_EXPORT current_robot;
  * 5. Payload (min, max), default is min
  */
 
-constexpr const int MaxLinearSpeed = 30000;
+constexpr const int MaxLinearSpeed = 100;
 constexpr const int DefaultLinearSpeed = static_cast<int>(MaxLinearSpeed / 2.5);
-constexpr const int MaxAngleSpeed = 18000;
+constexpr const int MaxAngleSpeed = 100; 
 constexpr const int DefaultAngleSpeed = MaxAngleSpeed / 5;
 constexpr const int DefaultXYTorqueLimit = 55;
 constexpr const int DefaultZTorqueLimit = 30;

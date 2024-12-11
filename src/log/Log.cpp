@@ -75,9 +75,16 @@ void Log::ClearOldLogs(int keep_days)
     if (!log_dir.exists()) {
         return;
     }
+#if QT_VERSION <= QT_VERSION_CHECK(5, 11, 0)
     QString cmd = QString("sh -c \"find %1 -type f -name '*.log*' -mtime +%2 | xargs rm -rf\"").
-            arg(LogPath).arg(keep_days);
+        arg(LogPath).arg(keep_days);
     QProcess::execute(cmd);
+#else
+    QString cmd = QString("find %1 -type f -name '*.log*' -mtime +%2 | xargs rm -rf")
+        .arg(LogPath)
+        .arg(keep_days);
+    QProcess::execute("sh", QStringList() << "-c" << cmd);
+#endif
 }
 
 Log::Log(QObject *parent) : QObject(parent)
